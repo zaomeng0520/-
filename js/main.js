@@ -1,5 +1,125 @@
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
+    // 创建并显示一个自定义版权声明弹窗
+    function showCopyrightModal() {
+        // 创建模态框元素
+        const modal = document.createElement('div');
+        modal.className = 'copyright-modal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        modal.style.display = 'flex';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+        modal.style.zIndex = '9999';
+        
+        // 创建模态框内容
+        const modalContent = document.createElement('div');
+        modalContent.className = 'copyright-modal-content';
+        modalContent.style.backgroundColor = '#fff';
+        modalContent.style.padding = '30px';
+        modalContent.style.borderRadius = '8px';
+        modalContent.style.maxWidth = '450px';
+        modalContent.style.textAlign = 'center';
+        modalContent.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+        
+        // 添加标题
+        const title = document.createElement('h2');
+        title.textContent = '版权声明';
+        title.style.color = '#4CAF50';
+        title.style.marginBottom = '15px';
+        title.style.fontSize = '24px';
+        
+        // 添加声明文本
+        const text = document.createElement('p');
+        text.textContent = '本网站由曹书玮创建并拥有全部版权';
+        text.style.fontSize = '18px';
+        text.style.marginBottom = '10px';
+        
+        // 添加年份
+        const year = document.createElement('p');
+        const currentYear = new Date().getFullYear();
+        year.textContent = `© ${currentYear} 保留所有权利`;
+        year.style.fontSize = '16px';
+        year.style.marginBottom = '20px';
+        year.style.color = '#666';
+        
+        // 添加附加声明
+        const additionalText = document.createElement('p');
+        additionalText.textContent = '未经许可，禁止复制或分发本网站内容';
+        additionalText.style.fontSize = '14px';
+        additionalText.style.marginBottom = '25px';
+        additionalText.style.color = '#666';
+        
+        // 添加按钮容器
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.justifyContent = 'center';
+        buttonContainer.style.gap = '15px';
+        
+        // 添加拒绝按钮
+        const rejectButton = document.createElement('button');
+        rejectButton.textContent = '拒绝';
+        rejectButton.style.backgroundColor = '#f44336';
+        rejectButton.style.color = '#fff';
+        rejectButton.style.border = 'none';
+        rejectButton.style.padding = '10px 20px';
+        rejectButton.style.borderRadius = '4px';
+        rejectButton.style.cursor = 'pointer';
+        rejectButton.style.fontSize = '16px';
+        
+        // 添加接受按钮
+        const acceptButton = document.createElement('button');
+        acceptButton.textContent = '我接受';
+        acceptButton.style.backgroundColor = '#4CAF50';
+        acceptButton.style.color = '#fff';
+        acceptButton.style.border = 'none';
+        acceptButton.style.padding = '10px 25px';
+        acceptButton.style.borderRadius = '4px';
+        acceptButton.style.cursor = 'pointer';
+        acceptButton.style.fontSize = '16px';
+        acceptButton.style.fontWeight = 'bold';
+        
+        // 拒绝按钮点击事件
+        rejectButton.addEventListener('click', function() {
+            if (confirm('您必须接受版权声明才能继续浏览本网站。是否离开？')) {
+                window.location.href = 'about:blank';
+            }
+        });
+        
+        // 接受按钮点击事件
+        acceptButton.addEventListener('click', function() {
+            document.body.removeChild(modal);
+            // 可以在这里设置cookie记录用户已接受版权声明
+            localStorage.setItem('copyrightAccepted', 'true');
+        });
+        
+        // 组装按钮容器
+        buttonContainer.appendChild(rejectButton);
+        buttonContainer.appendChild(acceptButton);
+        
+        // 组装模态框
+        modalContent.appendChild(title);
+        modalContent.appendChild(text);
+        modalContent.appendChild(year);
+        modalContent.appendChild(additionalText);
+        modalContent.appendChild(buttonContainer);
+        modal.appendChild(modalContent);
+        
+        // 添加到页面
+        document.body.appendChild(modal);
+    }
+    
+    // 检查用户是否已经接受版权声明
+    const hasAcceptedCopyright = localStorage.getItem('copyrightAccepted');
+    if (!hasAcceptedCopyright) {
+        // 显示版权声明
+        showCopyrightModal();
+    }
+    
     // 平滑滚动效果
     const scrollLinks = document.querySelectorAll('a[href^="#"]');
     
